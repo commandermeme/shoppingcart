@@ -51,7 +51,6 @@ def male_products():
         right_frame.update()
         if(limit%3==0):
             print('hey')
-            
 
 def female_products():
     male_button.place_forget()
