@@ -1,3 +1,4 @@
+import time
 import sqlite3
 import tkinter as root
 from tkinter import*
@@ -31,6 +32,8 @@ def shop_now():
 
 def male_products():
     limit = 1
+    x = 0.15
+    y = 0.5
     global left_frame
     global right_frame
     male_button.place_forget()
@@ -43,14 +46,11 @@ def male_products():
     cursorObj.execute('SELECT * FROM male_products')
     rows = cursorObj.fetchall()
     for row in rows:
-        limit += 1
         print(row)
         item = Canvas(right_frame, width=100, height=100)
         item.pack(side=LEFT, padx=5)
         right_frame.pack_propagate(False)
         right_frame.update()
-        if(limit%3==0):
-            print('hey')
 
 def female_products():
     male_button.place_forget()
