@@ -1,14 +1,13 @@
-import mysql.connector
+import sqlite3
 import tkinter as root
 from tkinter import*
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    database="shoppingcart"
-    )
-cursor = mydb.cursor()
+con = sqlite3.connect('mydatabase.db')
+cursorObj = con.cursor()
+#cursorObj.execute("CREATE TABLE female_products(id integer PRIMARY KEY, product_name text, brand text, price float, stock integer, date_added DateTime)")
+# cursorObj.execute("INSERT INTO products VALUES(2, 'Eyeglasses2', 'Rayban', '500', 100, '2019-02-19')")
+# con.commit()
+# con.close()
 
 window = root.Tk()
 window.configure(bg='black')
@@ -31,10 +30,9 @@ def shop_now():
     female_button.place(relx=0.6, rely=0.5, anchor=CENTER)
 
 def male_products():
+    limit = 1
     global left_frame
     global right_frame
-    relx = 0
-    rely = 0
     male_button.place_forget()
     female_button.place_forget()
     left_frame = Frame(window,width=400, height=742, bg='gray')
@@ -42,10 +40,18 @@ def male_products():
     right_frame = Frame(window, width=950, height=742, bg='pink')
     right_frame.place(relx=0.645, rely=0.5, anchor=CENTER)
 
-    cursor.execute(""" SELECT * FROM male_products """)
-    for row in cursor:
-        item = Canvas(right_frame, width=100, height=100, bg='black')
-        item.update()
+    cursorObj.execute('SELECT * FROM male_products')
+    rows = cursorObj.fetchall()
+    for row in rows:
+        limit += 1
+        print(row)
+        item = Canvas(right_frame, width=100, height=100)
+        item.pack(side=LEFT, padx=5)
+        right_frame.pack_propagate(False)
+        right_frame.update()
+        if(limit%3==0):
+            print('hey')
+            
 
 def female_products():
     male_button.place_forget()
